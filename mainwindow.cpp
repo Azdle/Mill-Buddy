@@ -22,9 +22,9 @@ void MainWindow::on_loadButton_clicked(){
 }
 
 void MainWindow::on_processButton_clicked(){
-    statusBar()->showMessage(tr("The process function has not been implimeted yet."), 15);
+    statusBar()->showMessage(tr("The process function has not been implimeted yet."), 1500);
 }
 
 void MainWindow::on_saveButton_clicked(){
-    statusBar()->showMessage(tr("The save function has not been implimeted yet."), 15);
+    statusBar()->showMessage(tr("The save function has not been implimeted yet."), 1500);
 }

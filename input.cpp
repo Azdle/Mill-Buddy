@@ -13,9 +13,25 @@ input::input()
 {
 }
 
+<<<<<<< Updated upstream
 void input::readGerber(std::string fileName){
     //int segment = -1;
     //double* xold = NULL;
+=======
+struct circle{
+    double padRadius;
+    double holeRadius;
+};
+
+void input::addApertureDefinition(int defNum, char type, int x1, int x2 = 0, int x3 = 0, int x4 = 0){
+
+
+}
+
+void input::parseGerber(std::string inStr[], int inStrLen){
+    int segment = -1;
+    double* xold = NULL;
+>>>>>>> Stashed changes
     //xold = new int[inStr.length()];
     //double* yold = NULL;
     //yold = new int[inStr.length()];
@@ -32,6 +48,7 @@ void input::readGerber(std::string fileName){
 
     inFile.open(fileName.c_str());
 
+<<<<<<< Updated upstream
     while(!inFile.eof()){
 
         inFile >> line;
@@ -40,6 +57,86 @@ void input::readGerber(std::string fileName){
             //Format Statement
 
             cout << "Found Format Statement" << endl;
+=======
+
+    bool leadingZerosOmitted = false;
+    bool trailingZerosOmitted = false;
+    bool explicitDecimalPoint = true;
+    bool absoluteCoordinates = true; //False Means Incremental Cooridnates
+    int formatXLeading = 2; //Number of Leading or Trailng Digits
+    int formatYLeading = 2;
+    int formatXTrailing = 3;
+    int formatYTrailing = 3;
+    bool unitsMM = false; //False Means Inches
+    bool imagePolarityPos = true; //False Means Negitave
+
+
+
+    int aptures = 0;
+    int rectangles = 0;
+    int oblongs = 0;
+
+
+
+    while(line < inStrLen){
+        if(inStr[line].find("%FS") != std::string::npos){
+            //Format Statement
+
+            if(inStr[line].find("L")){
+                leadingZerosOmitted = true;
+            }else if(inStr[line].find("T")){
+                trailingZerosOmitted = true;
+            }else{
+                leadingZerosOmitted = false;
+                trailingZerosOmitted = false;
+            }
+
+            if(inStr[line].find("D")){
+                explicitDecimalPoint = true;
+            }else{
+                explicitDecimalPoint = true;
+            }
+
+            if(inStr[line].find("A")){
+                absoluteCoordinates = true;
+            }else if(inStr[line].find("I")){
+                absoluteCoordinates = false;
+            }//else fail/warn here
+
+            if(inStr[line].find("X")){
+                formatXLeading = int(inStr[line][inStr[line].find("X")+1]);
+                formatXTrailing = int(inStr[line][inStr[line].find("X")+2]);
+            }
+            if(inStr[line].find("Y")){
+                formatYLeading = int(inStr[line][inStr[line].find("Y")+1]);
+                formatYTrailing = int(inStr[line][inStr[line].find("Y")+2]);
+            }
+            //Could also look for: Z-Format (like above)(rare, if ever), Sequence Number (Nn), Prepatory Function (Gn)(rare),
+            //Draft Code (Dn), Misc. Code (Mn)
+
+            continue;
+        }
+        else if(inStr[line].find("%MO") != std::string::npos){
+            //Units
+
+            if(inStr[line].find("IN")){
+                unitsMM = false;
+            }else if(inStr[line].find("MM")){
+                unitsMM = true;
+            }
+
+            continue;
+        }
+        else if(inStr[line].find("%IP") != std::string::npos){
+            //Image Polarity
+
+            if(inStr[line].find("POS")){
+                imagePolarityPos = true;
+            }else if(inStr[line].find("NEG")){
+                imagePolarityPos = false;
+            }
+
+>>>>>>> Stashed changes
             continue;
         }
         else if(line.find("%AM") != std::string::npos){
@@ -50,12 +147,28 @@ void input::readGerber(std::string fileName){
 
             continue;
         }
+<<<<<<< Updated upstream
         else if(line.find("%AM") != std::string::npos){
             //Aperture Definition
             if(line.find("C")){
                 //Circle
                 cout << "Found Circle Definition" << endl;
 
+=======
+        else if(inStr[line].find("%AD") != std::string::npos){
+            //Aperture Description
+
+            if(inStr[line].find("C")){
+                //Circle
+                if(inStr[line].find("X") != std::string::npos){
+                    if(inStr[line].find("X", inStr[line].find("X")+1) != std::string::npos){
+                        //Dos Equis: Circle with square hole.
+                        //Not Supported
+                    }else{
+                        //One X: Circle Pad With Circle Hole
+                    }
+                }
+>>>>>>> Stashed changes
                 continue;
             }
             else if(line.find("R") != std::string::npos){

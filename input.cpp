@@ -13,25 +13,15 @@ input::input()
 {
 }
 
-<<<<<<< Updated upstream
-void input::readGerber(std::string fileName){
-    //int segment = -1;
-    //double* xold = NULL;
-=======
-struct circle{
-    double padRadius;
-    double holeRadius;
-};
 
 void input::addApertureDefinition(int defNum, char type, int x1, int x2 = 0, int x3 = 0, int x4 = 0){
 
 
 }
 
-void input::parseGerber(std::string inStr[], int inStrLen){
-    int segment = -1;
-    double* xold = NULL;
->>>>>>> Stashed changes
+void input::readGerber(std::string fileName){
+    //int segment = -1;
+    //double* xold = NULL;
     //xold = new int[inStr.length()];
     //double* yold = NULL;
     //yold = new int[inStr.length()];
@@ -47,17 +37,6 @@ void input::parseGerber(std::string inStr[], int inStrLen){
     std::ifstream inFile;
 
     inFile.open(fileName.c_str());
-
-<<<<<<< Updated upstream
-    while(!inFile.eof()){
-
-        inFile >> line;
-
-        if(line.find("%FS") != std::string::npos){
-            //Format Statement
-
-            cout << "Found Format Statement" << endl;
-=======
 
     bool leadingZerosOmitted = false;
     bool trailingZerosOmitted = false;
@@ -77,10 +56,14 @@ void input::parseGerber(std::string inStr[], int inStrLen){
     int oblongs = 0;
 
 
+    while(!inFile.eof()){
 
-    while(line < inStrLen){
-        if(inStr[line].find("%FS") != std::string::npos){
+        inFile >> line;
+
+        if(line.find("%FS") != std::string::npos){
             //Format Statement
+
+            cout << "Found Format Statement" << endl;
 
             if(inStr[line].find("L")){
                 leadingZerosOmitted = true;
@@ -136,39 +119,14 @@ void input::parseGerber(std::string inStr[], int inStrLen){
                 imagePolarityPos = false;
             }
 
->>>>>>> Stashed changes
             continue;
         }
-        else if(line.find("%AM") != std::string::npos){
-            //Aperture Macro
-            cout << "Found Aperture Macro" << endl;
-
-            //apertures.insert();
-
-            continue;
-        }
-<<<<<<< Updated upstream
         else if(line.find("%AM") != std::string::npos){
             //Aperture Definition
+            cout << "Found Aperture Macro" << endl;
             if(line.find("C")){
                 //Circle
                 cout << "Found Circle Definition" << endl;
-
-=======
-        else if(inStr[line].find("%AD") != std::string::npos){
-            //Aperture Description
-
-            if(inStr[line].find("C")){
-                //Circle
-                if(inStr[line].find("X") != std::string::npos){
-                    if(inStr[line].find("X", inStr[line].find("X")+1) != std::string::npos){
-                        //Dos Equis: Circle with square hole.
-                        //Not Supported
-                    }else{
-                        //One X: Circle Pad With Circle Hole
-                    }
-                }
->>>>>>> Stashed changes
                 continue;
             }
             else if(line.find("R") != std::string::npos){
@@ -182,6 +140,19 @@ void input::parseGerber(std::string inStr[], int inStrLen){
                 continue;
             }
         }
+        else if(inStr[line].find("%AD") != std::string::npos){
+            //Aperture Description
+
+            if(inStr[line].find("C")){
+                //Circle
+                if(inStr[line].find("X") != std::string::npos){
+                    if(inStr[line].find("X", inStr[line].find("X")+1) != std::string::npos){
+                        //Dos Equis: Circle with square hole.
+                        //Not Supported
+                    }else{
+                        //One X: Circle Pad With Circle Hole
+                    }
+                }
         else if(line.find("D") == 0){
             //Change Aperture
             cout << "Found Change of Aperture" << endl;

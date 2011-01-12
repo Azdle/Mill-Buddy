@@ -6,7 +6,7 @@ class input
 public:
     input();
 
-    void readGerber(std::string*, int);
+    void readGerber(std::string);
 };
 
 #endif // INPUT_H

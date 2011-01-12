@@ -1,57 +1,85 @@
 #include <string>
 #include <vector>
+#include <iostream>
+#include <fstream>
 #include "input.h"
 #include "mainwindow.h"
+
+using std::cout;
+using std::endl;
 
 
 input::input()
 {
 }
 
-void input::readGerber(std::string inStr[], int inStrLen){
-    int segment = -1;
-    double* xold = NULL;
+void input::readGerber(std::string fileName){
+    //int segment = -1;
+    //double* xold = NULL;
     //xold = new int[inStr.length()];
-    double* yold = NULL;
+    //double* yold = NULL;
     //yold = new int[inStr.length()];
-    int line = 0;
-    std::vector<std::string> path;
+    //std::vector<std::string> path;
     std::vector<std::string> apertures;
-    std::vector<std::string> macros;
-    int macrosN = 0;
+    //std::vector<std::string> macros;
+    //int macrosN = 0;
 
-    while(line < inStrLen){
-        if(inStr[line].find("%FS") != std::string::npos){
+    std::string line;
+
+    cout << "Starting Parsing" << endl;
+
+    std::ifstream inFile;
+
+    inFile.open(fileName.c_str());
+
+    while(!inFile.eof()){
+
+        inFile >> line;
+
+        if(line.find("%FS") != std::string::npos){
             //Format Statement
+
+            cout << "Found Format Statement" << endl;
             continue;
         }
-        else if(inStr[line].find("%AM") != std::string::npos){
+        else if(line.find("%AM") != std::string::npos){
             //Aperture Macro
+            cout << "Found Aperture Macro" << endl;
 
             //apertures.insert();
 
             continue;
         }
-        else if(inStr[line].find("%AM") != std::string::npos){
+        else if(line.find("%AM") != std::string::npos){
             //Aperture Definition
-            if(inStr[line].find("C")){
+            if(line.find("C")){
                 //Circle
+                cout << "Found Circle Definition" << endl;
+
                 continue;
             }
-            else if(inStr[line].find("R") != std::string::npos){
+            else if(line.find("R") != std::string::npos){
                 //Rectangle
+                cout << "Found Rectangle Definition" << endl;
                 continue;
             }
-            else if(inStr[line].find("O") != std::string::npos){
+            else if(line.find("O") != std::string::npos){
                 //Oblong
+                cout << "Found Oblong Definition" << endl;
                 continue;
             }
         }
-        else if(inStr[line].find("D") == 0){
+        else if(line.find("D") == 0){
             //Change Aperture
+            cout << "Found Change of Aperture" << endl;
         }
-        else if(inStr[line].find("G54D") == 0){
+        else if(line.find("G54D") == 0){
             //Change Aperture
+            cout << "Found Change of Aperture(G)" << endl;
+        }
+        else{
+            //Unkown Command
+            cout << "Unknown Connand: " << line << endl;
         }
     }
 

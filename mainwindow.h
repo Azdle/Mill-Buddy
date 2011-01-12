@@ -19,6 +19,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    void processFile();
 
 private slots:
     void on_loadButton_clicked();

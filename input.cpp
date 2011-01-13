@@ -65,57 +65,57 @@ void input::readGerber(std::string fileName){
 
             cout << "Found Format Statement" << endl;
 
-            if(inStr[line].find("L")){
+            if(line.find("L")){
                 leadingZerosOmitted = true;
-            }else if(inStr[line].find("T")){
+            }else if(line.find("T")){
                 trailingZerosOmitted = true;
             }else{
                 leadingZerosOmitted = false;
                 trailingZerosOmitted = false;
             }
 
-            if(inStr[line].find("D")){
+            if(line.find("D")){
                 explicitDecimalPoint = true;
             }else{
                 explicitDecimalPoint = true;
             }
 
-            if(inStr[line].find("A")){
+            if(line.find("A")){
                 absoluteCoordinates = true;
-            }else if(inStr[line].find("I")){
+            }else if(line.find("I")){
                 absoluteCoordinates = false;
             }//else fail/warn here
 
-            if(inStr[line].find("X")){
-                formatXLeading = int(inStr[line][inStr[line].find("X")+1]);
-                formatXTrailing = int(inStr[line][inStr[line].find("X")+2]);
+            if(line.find("X")){
+                formatXLeading = int(line[line.find("X")+1]);
+                formatXTrailing = int(line[line.find("X")+2]);
             }
-            if(inStr[line].find("Y")){
-                formatYLeading = int(inStr[line][inStr[line].find("Y")+1]);
-                formatYTrailing = int(inStr[line][inStr[line].find("Y")+2]);
+            if(line.find("Y")){
+                formatYLeading = int(line[line.find("Y")+1]);
+                formatYTrailing = int(line[line.find("Y")+2]);
             }
             //Could also look for: Z-Format (like above)(rare, if ever), Sequence Number (Nn), Prepatory Function (Gn)(rare),
             //Draft Code (Dn), Misc. Code (Mn)
 
             continue;
         }
-        else if(inStr[line].find("%MO") != std::string::npos){
+        else if(line.find("%MO") != std::string::npos){
             //Units
 
-            if(inStr[line].find("IN")){
+            if(line.find("IN")){
                 unitsMM = false;
-            }else if(inStr[line].find("MM")){
+            }else if(line.find("MM")){
                 unitsMM = true;
             }
 
             continue;
         }
-        else if(inStr[line].find("%IP") != std::string::npos){
+        else if(line.find("%IP") != std::string::npos){
             //Image Polarity
 
-            if(inStr[line].find("POS")){
+            if(line.find("POS")){
                 imagePolarityPos = true;
-            }else if(inStr[line].find("NEG")){
+            }else if(line.find("NEG")){
                 imagePolarityPos = false;
             }
 
@@ -140,19 +140,21 @@ void input::readGerber(std::string fileName){
                 continue;
             }
         }
-        else if(inStr[line].find("%AD") != std::string::npos){
+        else if(line.find("%AD") != std::string::npos){
             //Aperture Description
 
-            if(inStr[line].find("C")){
+            if(line.find("C")){
                 //Circle
-                if(inStr[line].find("X") != std::string::npos){
-                    if(inStr[line].find("X", inStr[line].find("X")+1) != std::string::npos){
+                if(line.find("X") != std::string::npos){
+                    if(line.find("X", line.find("X")+1) != std::string::npos){
                         //Dos Equis: Circle with square hole.
                         //Not Supported
                     }else{
                         //One X: Circle Pad With Circle Hole
                     }
                 }
+            }
+        }
         else if(line.find("D") == 0){
             //Change Aperture
             cout << "Found Change of Aperture" << endl;
